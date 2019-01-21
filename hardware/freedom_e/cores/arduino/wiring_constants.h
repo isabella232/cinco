@@ -19,6 +19,8 @@
 #ifndef _WIRING_CONSTANTS_
 #define _WIRING_CONSTANTS_
 
+#include "encoding.h"
+
 __BEGIN_DECLS
 
 #define HIGH 0x1
@@ -72,8 +74,8 @@ enum BitOrder {
 #define degrees(rad) ((rad)*RAD_TO_DEG)
 #define sq(x) ((x)*(x))
 
-#define interrupts() __enable_irq()
-#define noInterrupts() __disable_irq()
+#define interrupts()   set_csr(mie, MIP_MEIP | MIP_MTIP | MIP_MSIP);
+#define noInterrupts() clear_csr(mie, MIP_MEIP | MIP_MTIP | MIP_MSIP);
 
 #define lowByte(w) ((uint8_t) ((w) & 0xff))
 #define highByte(w) ((uint8_t) ((w) >> 8))
